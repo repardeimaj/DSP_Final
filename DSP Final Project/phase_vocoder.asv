@@ -1,0 +1,33 @@
+[x, fs] = audioread('test.m4a');
+ 
+
+t_original = (0:length(x)-1) / fs;
+t_scaled = (0:2:length(x) - 1)/fs;
+
+x_scaled = interp1(t_original, x, t_scaled, 'linear', 0);
+
+subplot(411);
+plot(x);
+subplot(412);
+plot(x_scaled);
+
+X = fft(x, length(x));
+X_scaled = fft(x_scaled, length(x_scaled));
+
+subplot(413);
+plot(abs(X));
+subplot(414);
+plot(abs(X_scaled));
+
+S = stft(x, 2000, )
+
+
+function out = STFT(x, hop_len, width)
+    out = zeros(length(x)/hop_len);
+    for i = 0:hop_len:length(x) - width
+        temp = x(i:i + width - 1);
+        window = hann(width) .* 
+        fft = fft(temp, width);
+        out(i/hop_len) = fft;
+    end
+end

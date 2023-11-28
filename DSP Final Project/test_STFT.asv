@@ -1,0 +1,26 @@
+
+fs = 1e-3;
+t = 0:fs:20*pi;
+x = sin(2*pi*t);
+
+
+[s,f,t] = stft(x,fs,Window=hann(100),OverlapLength=50,FFTLength=512);
+
+sdb = abs(s);
+mesh(t,f/1000,sdb);
+
+cc = max(sdb(:))+[-60 0];
+ax = gca;
+ax.CLim = cc;
+view(2);
+colorbar;
+
+scale_factor = 2;
+prev_len = length(s(1));
+new_len = scale_factor * prev_len;
+
+original_indices = linspace(1, prev_len, prev_len);
+desired_indices = linspace(1, prev_len, new_len);
+
+interpolated_sequence = interp1(original_indices, s(:), desired_indices, 'linear');
+
